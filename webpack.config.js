@@ -13,7 +13,7 @@ export default {
           options: {
             presets: [
               '@babel/preset-env',
-              '@babel/preset-react'
+              '@babel/preset-react',
             ],
           },
         },
@@ -34,7 +34,7 @@ export default {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
