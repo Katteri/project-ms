@@ -10,7 +10,7 @@ const BoardTask = ({ task }) => {
     'low': 'success',
     'medium': 'warning',
     'high': 'danger',
-  }
+  };
   return (
     <Card className="my-4">
       <Card.Body>

@@ -4,14 +4,26 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge';
 import { getTasks } from '../axios'
 
 const Task = ({ task }) => {
+  const colors = {
+    'low': 'success',
+    'medium': 'warning',
+    'high': 'danger',
+  };
   return (
     <ListGroup.Item className="d-flex justify-content-between align-items-start p-4">
-      <div className="ms-2 me-auto">
-        <div className="fw-bold">{task.title}</div>
+      <div className="ms-2 me-auto w-100">
+        <div className="fw-bold d-flex justify-content-between align-items-center">
+          {task.title}
+          <div className="fw-light small me-2">{task.status}</div>
+        </div>
+        <div className="d-flex justify-content-between align-items-center">
           Исполнитель: {task.assignee.fullName}
+          <Badge bg={colors[task.priority.toLowerCase()]} className="mt-2 mb-1">{task.priority}</Badge>
+        </div>
       </div>
     </ListGroup.Item>
   );
