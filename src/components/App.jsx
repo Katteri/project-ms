@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import Header from "./Header";
+import Header from './Header';
+import Tasks from './Tasks';
 import Boards from './Boards';
 
 const App = () => {
+  const [activeTab, setActiveTab] = useState('tasks');
+  const content = activeTab === 'tasks'? <Tasks/> : <Boards/>;
   return (
     <>
-      <Header />
-      <Boards />
+      <Header activeTab={activeTab} setActiveTab={setActiveTab}/>
+      {content}
     </>
   );
 }

@@ -48,4 +48,15 @@ export default {
     port: 9000,
     hot: true,
   },
+  ignoreWarnings: [
+    {
+      module: /module2\.js\?[34]/,
+    },
+    {
+      module: /[13]/,
+      message: /homepage/,
+    },
+    /warning from compiler/,
+    () => true,
+  ],
 };
