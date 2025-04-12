@@ -97,10 +97,9 @@ const SingleBoard = ({ board }) => {
   );
 }
 
-const Boards = () => {
+const Boards = ({ currentBoard, setCurrentBoard }) => {
   const [boards, setBoards] = useState([]);
-  const [currentBoard, setCurrentBoard] = useState(null);
-
+  
   useEffect(() => {
     const getData = async () => {
       const fetchedBoards = await getBoards();
@@ -108,10 +107,6 @@ const Boards = () => {
     };
     getData();
   }, []);
-
-  useEffect(() => {
-    
-  }, [currentBoard]);
 
   const handlerBoardClick = (e) => {
     e.preventDefault();

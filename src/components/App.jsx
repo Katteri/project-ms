@@ -6,10 +6,17 @@ import Boards from './Boards';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('tasks');
-  const content = activeTab === 'tasks'? <Tasks/> : <Boards/>;
+  const [currentBoard, setCurrentBoard] = useState(null);
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    setCurrentBoard(null);
+  }
+
+  const content = activeTab === 'tasks'? <Tasks/> : <Boards currentBoard={currentBoard} setCurrentBoard={setCurrentBoard}/>;
   return (
     <>
-      <Header activeTab={activeTab} setActiveTab={setActiveTab}/>
+      <Header activeTab={activeTab} handleTabClick={handleTabClick}/>
       {content}
     </>
   );
