@@ -10,6 +10,9 @@ export const ModalProvider = ({ children }) => {
     show: false,
     mode: 'create', // 'edit', 'editFromTasks'
   });
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const triggerRefresh = () => setRefreshTrigger(prev => prev + 1);
 
   const openModal = ({ task = null, mode = 'create' }) => {
     setModal({ task, show: true, mode });
@@ -24,7 +27,7 @@ export const ModalProvider = ({ children }) => {
   };
 
   return (
-    <ModalContext.Provider value={{ modal, openModal, closeModal, handleExited }}>
+    <ModalContext.Provider value={{ modal, openModal, closeModal, handleExited, refreshTrigger, triggerRefresh }}>
       {children}
     </ModalContext.Provider>
   );

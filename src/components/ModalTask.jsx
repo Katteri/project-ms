@@ -123,7 +123,7 @@ const ModalForm = ({ task, mode, users, boards, onChange, errors }) => {
 }
 
 const ModalTask = () => {
-  const { modal, closeModal, handleExited } = useModal();
+  const { modal, closeModal, handleExited, triggerRefresh } = useModal();
   const [boards, setBoards] = useState([]);
   const [users, setUsers] = useState([]);
   const [formState, setFormState] = useState({});
@@ -223,6 +223,7 @@ const ModalTask = () => {
       });
       updateStatus(status, taskId);
     }
+    triggerRefresh();
     closeModal();
   };
 

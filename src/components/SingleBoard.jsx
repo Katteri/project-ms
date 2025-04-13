@@ -32,6 +32,7 @@ const BoardTask = ({ task }) => {
 
 const SingleBoard = () => {
   const { id } = useParams();
+  const { refreshTrigger } = useModal();
   const [board, setBoard] = useState(null);
   const [tasks, setTasks] = useState({
     backlog: [],
@@ -54,7 +55,7 @@ const SingleBoard = () => {
       setBoard(fetchedBoard);
     };
     getData();
-  }, []);
+  }, [id, refreshTrigger]);
 
   return (
     <div className="p-5">

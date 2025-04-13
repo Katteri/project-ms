@@ -39,7 +39,7 @@ const Tasks = () => {
   const [filterParams, setFilterParams] = useState({ statuses: [], boards: [] });
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterBoard, setFilterBoard] = useState('all');
-  const { openModal } = useModal();
+  const { openModal, refreshTrigger } = useModal();
 
   useEffect(() => {
     const getData = async () => {
@@ -51,7 +51,7 @@ const Tasks = () => {
       setFilterParams({ statuses, boards });
     };
     getData();
-  }, []);
+  }, [refreshTrigger]);
 
   useEffect(() => {
     let result = [...originalTasks];
