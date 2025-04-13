@@ -19,4 +19,14 @@ async function getTasks() {
   return response.data.data;
 }
 
-export { getBoards, getBoardTasks, getTasks };
+async function getTask(taskId) {
+  const response = await instance.get(['tasks', taskId].join('/'));
+  return response.data.data;
+}
+
+async function getUsers() {
+  const response = await instance.get('users');
+  return response.data.data;
+}
+
+export { getBoards, getBoardTasks, getTasks, getTask, getUsers };

@@ -4,11 +4,11 @@ import ListGroup from 'react-bootstrap/ListGroup';
 const Board = ({ board, handlerBoardClick }) => {
   return (
     <>
-      <ListGroup.Item className="d-flex justify-content-between align-items-center py-4">
+      <ListGroup.Item className="d-flex justify-content-between align-items-center p-4 ps-3">
         <div className='ms-2 me-auto'>
           {board.name}
         </div>
-        <button className='btn btn-outline-primary' data-id={board.id} onClick={handlerBoardClick}>Перейти к доске</button>
+        <button className='btn btn-outline-primary' data-id={board.id} onClick={handlerBoardClick}>Перейти к проекту</button>
       </ListGroup.Item>
     </>
   );

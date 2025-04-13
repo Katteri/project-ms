@@ -1,7 +1,10 @@
 import React from 'react';
 import Nav from 'react-bootstrap/nav';
+import { useModal } from './contexts/ModalContext';
 
 const Header = ({ activeTab, handleTabClick }) => {
+  const { openModal } = useModal();
+
   return (
     <>
       <header className="bg-white p-3 px-5 sticky-top d-flex justify-content-between align-items-center">
@@ -9,7 +12,7 @@ const Header = ({ activeTab, handleTabClick }) => {
           <Nav.Link eventKey="tasks" onClick={() => handleTabClick('tasks')}>Задачи</Nav.Link>
           <Nav.Link eventKey="boards" onClick={() => handleTabClick('boards')}>Проекты</Nav.Link>
         </Nav>
-        <button className='btn btn-primary'>Создать задачу</button>
+        <button className='btn btn-primary' onClick={() => openModal({ mode: 'create' })}>Создать задачу</button>
       </header>
     </>
   );

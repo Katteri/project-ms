@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import Card from 'react-bootstrap/Card';
-import Badge from 'react-bootstrap/Badge';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Card, Badge, Row, Col } from 'react-bootstrap';
 import { getTasks } from '../axios';
+import { useModal } from './contexts/ModalContext';
 
 const BoardTask = ({ task }) => {
+  const { openModal } = useModal();
   const colors = {
     'low': 'success',
     'medium': 'warning',
     'high': 'danger',
   };
+
   return (
-    <Card className="my-4">
+    <Card
+      className="my-4"
+      onClick={() => openModal({ task, mode: 'editFromBoard' })}
+      style={{ cursor: 'pointer' }}
+    >
       <Card.Body>
         <Card.Title>{task.title}</Card.Title>
         <Card.Text>{task.description}</Card.Text>
