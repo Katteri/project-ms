@@ -189,9 +189,7 @@ const ModalTask = () => {
         formState.status !== modal.task.status ||
         formState.boardId !== modal.task.boardId ||
         formState.assigneeId !== modal.task.assignee?.id;
-      console.log(formState);
       if (!isChanged) {
-        console.log('Никаких изменений не было');
         closeModal();
         return;
       }
@@ -202,7 +200,6 @@ const ModalTask = () => {
     }
 
     if (modal.mode.startsWith('edit')) {
-      console.log('Обновляем задачу', formState);
       await updateTask({
         title: formState.title,
         description: formState.description,
@@ -212,7 +209,6 @@ const ModalTask = () => {
       }, modal.task.id);
       
     } else {
-      console.log('Создаём задачу', formState);
       const { status } = formState;
       const taskId = await createTask({
         title: formState.title,

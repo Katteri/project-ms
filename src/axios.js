@@ -42,4 +42,6 @@ async function updateTask(task, taskId) {
   await instance.put(['tasks', 'update', taskId].join('/'), task);
 }
 
-export { getBoards, getBoardTasks, getTasks, getTask, getUsers, createTask, updateStatus, updateTask };
+export {
+  getBoards, getBoardTasks, getTasks, getTask, getUsers, createTask, updateStatus, updateTask,
+};

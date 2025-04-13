@@ -56,7 +56,7 @@ export default {
     port: 9000,
     hot: true,
     open: true,
-    
+
   },
   ignoreWarnings: [
     {
