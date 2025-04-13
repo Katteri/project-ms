@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { Button, Modal, Form, FloatingLabel } from 'react-bootstrap';
-import SingleBoard from './SingleBoard';
 import { useModal } from './contexts/ModalContext';
-import { getBoards, getUsers } from '../axios';
+import { getBoards, getUsers, createTask, updateStatus, updateTask } from '../axios';
 
 const priorities = ['Low', 'Medium', 'High'];
 const statuses = ['Backlog', 'InProgress', 'Done'];
@@ -61,13 +61,13 @@ const ModalForm = ({ task, mode, users, boards, onChange, errors }) => {
       <Form.Select
         aria-label="Default select example"
         className={cn({'mb-3': !errors.boardId})}
-        disabled={mode.endsWith('Board')}
+        disabled={mode.startsWith('edit')}
         value={formData.boardId}
         onChange={handleChange('boardId')}
         isInvalid={!!errors.boardId}
       >
         {mode === 'create' && <option value="">Проект</option>}
-        {mode.endsWith('Board')
+        {mode.startsWith('edit')
         ? <option value={task.boardId}>{task.boardName}</option>
         : boards.map(board => <option key={board.id} value={board.id}>{board.name}</option>)}
       </Form.Select>
@@ -128,6 +128,7 @@ const ModalTask = () => {
   const [users, setUsers] = useState([]);
   const [formState, setFormState] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setFormErrors({});
@@ -201,11 +202,26 @@ const ModalTask = () => {
     }
 
     if (modal.mode.startsWith('edit')) {
-      // тут сделать PUT запрос для обновления задачи
       console.log('Обновляем задачу', formState);
+      await updateTask({
+        title: formState.title,
+        description: formState.description,
+        priority: formState.priority,
+        status: formState.status,
+        assigneeId: parseInt(formState.assigneeId, 10),
+      }, modal.task.id);
+      
     } else {
-      // тут сделать POST запрос для создания новой задачи
       console.log('Создаём задачу', formState);
+      const { status } = formState;
+      const taskId = await createTask({
+        title: formState.title,
+        description: formState.description,
+        priority: formState.priority,
+        boardId: parseInt(formState.boardId, 10),
+        assigneeId: parseInt(formState.assigneeId, 10),
+      });
+      updateStatus(status, taskId);
     }
     closeModal();
   };
@@ -213,8 +229,8 @@ const ModalTask = () => {
   const handleOpenBoard = (e) => {
     e.preventDefault();
     const id = e.target.dataset.boardId;
-    const board = boards.filter(board => board.id === parseInt(id, 10))[0];
-    
+    handleClose();
+    navigate(`/board/${id}`);
   }
 
   return (
@@ -246,7 +262,10 @@ const ModalTask = () => {
             Перейти к проекту
           </Button>
         )}
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+        >
           {modal.mode.startsWith('edit') ? 'Обновить' : 'Создать'}
         </Button>
       </Modal.Footer>

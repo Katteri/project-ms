@@ -29,4 +29,17 @@ async function getUsers() {
   return response.data.data;
 }
 
-export { getBoards, getBoardTasks, getTasks, getTask, getUsers };
+async function createTask(task) {
+  const response = await instance.post(['tasks', 'create'].join('/'), task);
+  return response.data.data.id;
+}
+
+async function updateStatus(status, taskId) {
+  await instance.put(['tasks', 'updateStatus', taskId].join('/'), { status });
+}
+
+async function updateTask(task, taskId) {
+  await instance.put(['tasks', 'update', taskId].join('/'), task);
+}
+
+export { getBoards, getBoardTasks, getTasks, getTask, getUsers, createTask, updateStatus, updateTask };

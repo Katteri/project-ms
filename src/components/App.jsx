@@ -1,28 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Header from './Header';
 import Tasks from './Tasks';
 import Boards from './Boards';
 import ModalTask from './ModalTask';
+import SingleBoard from './SingleBoard';
 import { ModalProvider } from './contexts/ModalContext';
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState('tasks');
-  const [currentBoard, setCurrentBoard] = useState(null);
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    setCurrentBoard(null);
-  }
-
-  const content = activeTab === 'tasks'
-    ? <Tasks />
-    : <Boards currentBoard={currentBoard} setCurrentBoard={setCurrentBoard}/>;
-
   return (
     <ModalProvider>
-      <Header activeTab={activeTab} handleTabClick={handleTabClick}/>
-      {content}
+      <Header />
+      <Routes>
+        <Route path="/" element={<Navigate to="/issues" replace />} />
+        <Route path="/issues" element={<Tasks />} />
+        <Route path="/boards" element={<Boards />} />
+        <Route path="/board/:id" element={<SingleBoard />} />
+      </Routes>
       <ModalTask />
     </ModalProvider>
   );

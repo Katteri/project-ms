@@ -1,4 +1,9 @@
+import { fileURLToPath } from 'url';
+import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default {
   mode: process.env.NODE_ENV || 'development',
@@ -43,10 +48,15 @@ export default {
   ],
   output: {
     clean: true,
+    filename: 'index.js',
+    path: path.resolve(dirname, 'dist'),
   },
   devServer: {
+    static: path.resolve(dirname, 'dist'),
     port: 9000,
     hot: true,
+    open: true,
+    
   },
   ignoreWarnings: [
     {

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getBoards } from '../axios';
 import AllBoards from './AllBoards';
-import SingleBoard from './SingleBoard';
 
-const Boards = ({ currentBoard, setCurrentBoard }) => {
+const Boards = () => {
+  const navigate = useNavigate();
   const [boards, setBoards] = useState([]);
   
   useEffect(() => {
@@ -17,14 +18,11 @@ const Boards = ({ currentBoard, setCurrentBoard }) => {
   const handlerBoardClick = (e) => {
     e.preventDefault();
     const boardId = parseInt(e.target.dataset.id, 10);
-    const board = boards.filter((board) => board.id === boardId)[0];
-    setCurrentBoard(board);
+    navigate(`/board/${boardId}`);
   }
 
   return (
-    <>
-      {currentBoard? <SingleBoard board={currentBoard} /> : <AllBoards boards={boards} handlerBoardClick={handlerBoardClick} />}
-    </>
+    <AllBoards boards={boards} handlerBoardClick={handlerBoardClick} />
   );
 }
 

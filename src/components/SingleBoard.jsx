@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Badge, Row, Col } from 'react-bootstrap';
-import { getTasks } from '../axios';
+import { getTasks, getBoards } from '../axios';
 import { useModal } from './contexts/ModalContext';
+import { useParams } from 'react-router-dom';
 
 const BoardTask = ({ task }) => {
   const { openModal } = useModal();
@@ -29,7 +30,9 @@ const BoardTask = ({ task }) => {
   );
 }
 
-const SingleBoard = ({ board }) => {
+const SingleBoard = () => {
+  const { id } = useParams();
+  const [board, setBoard] = useState(null);
   const [tasks, setTasks] = useState({
     backlog: [],
     inProgress: [],
@@ -39,20 +42,23 @@ const SingleBoard = ({ board }) => {
   useEffect(() => {
     const getData = async () => {
       let fetchedTasks = await getTasks();
-      fetchedTasks = fetchedTasks.filter(task => task.boardId === board.id);
+      const fetchedBoards = await getBoards();
+      fetchedTasks = fetchedTasks.filter(task => task.boardId === parseInt(id, 10));
+      const fetchedBoard = fetchedBoards.find(board => board.id === parseInt(id, 10));
 
       setTasks({ 
         backlog: fetchedTasks.filter(task => task.status.toLowerCase() === 'backlog'),
         inProgress: fetchedTasks.filter(task => task.status.toLowerCase() === 'inprogress'),
         done: fetchedTasks.filter(task => task.status.toLowerCase() === 'done'),
       });
+      setBoard(fetchedBoard);
     };
     getData();
   }, []);
 
   return (
     <div className="p-5">
-      <h1 className="fs-2 py-4 pt-0">{board.name}</h1>
+      <h1 className="fs-2 py-4 pt-0">{board?.name}</h1>
       <Row className="my-2">
         <Col className="border-bottom">
           <div className="py-2 px-3">To Do</div>
